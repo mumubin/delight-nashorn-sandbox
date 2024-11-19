@@ -535,4 +535,10 @@ public class NashornSandboxImpl implements NashornSandbox {
 		EvaluateCompiledOperation op = new EvaluateCompiledOperation(compiledScript, scriptContext, securedBindings);
 		return executeSandboxedOperation(op);
 	}
+
+	@Override
+	public void cleanBinding() {
+		this.cached.clear();
+		resetEngineBindings(scriptEngine.getContext());
+	}
 }

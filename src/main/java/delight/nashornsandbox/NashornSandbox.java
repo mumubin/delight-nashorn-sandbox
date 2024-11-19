@@ -24,6 +24,8 @@ import java.util.concurrent.ExecutorService;
  * @version $Id$
  */
 public interface NashornSandbox {
+
+  void cleanBinding();
     
   /**
    * Add a new class to the list of allowed classes.

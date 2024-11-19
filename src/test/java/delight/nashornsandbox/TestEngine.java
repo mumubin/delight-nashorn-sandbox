@@ -75,5 +75,20 @@ public class TestEngine {
 		//        assertEquals("TypeError: null has no such function \"log\" in <eval> at line number 1", scriptException.getMessage());
 	}
 
-	
+	@Test
+	public void testSandboxCleanInjectVar2() throws ScriptException {
+		NashornSandbox sandbox = NashornSandboxes.create();
+		String script = "           workflow.log(myVar);\n" +
+				"                myVar = {\"aa\":\"bb\"};\n" +
+				"                workflow.log(\"Hello from NashornSandbox\");\n";
+		sandbox.inject("myVar", "{\"Name\":{\"a\":\"b\"}}");
+		sandbox.inject("workflow", new TestMethodJavascriptInterface());
+		sandbox.eval(script);
+
+		System.out.println("Value of myVar: " + sandbox.get("myVar"));
+
+		sandbox.cleanBinding();
+		assertThrows(ScriptException.class, () -> sandbox.eval("workflow.log(myVar);"));
+		//        assertEquals("TypeError: null has no such function \"log\" in <eval> at line number 1", scriptException.getMessage());
+	}
 }
